@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>00957051</title>
+    <style type="text/CSS">
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background-color: lightblue;
+            font-family: Perpetua;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            padding: 4px;
+        }
+
+        th {
+            text-align: center;
+            color: white;
+            background-color: darkblue;
+        }
+
+        .oddrow {
+            background-color: white;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        let addButton;
+        let removeAllButton;
+        let title, author, year, url;
+        let tbody;
+        let flag = 1;
+
+        function start() {
+            addButton = document.getElementById("addButton");
+            removeAllButton = document.getElementById("removeAllButton");
+            title = document.getElementById("title");
+            author = document.getElementById("author");
+            year = document.getElementById("year");
+            url = document.getElementById("url");
+            tbody = document.getElementById("tbody");
+            addButton.addEventListener("click", store, false);
+            removeAllButton.addEventListener("click", clear, false);
+        }
+
+        function clear() {
+            localStorage.clear();
+            let table = document.getElementById("table");
+            var len = table.rows.length;
+            for (var i = 1; i < len; i++) {
+                table.deleteRow(1); //也能夠寫成table.deleteRow(0);
+            }
+            window.alert("All items were removed");
+        }
+
+        function store() {
+            let obj = {
+                "title": title.value,
+                "author": author.value,
+                "year": year.value,
+                "url": url.value
+            };
+            if (flag % 2) {
+                tbody.innerHTML += "<tr class='oddrow'><td>" + title.value + "</td><td>" + author.value + "</td><td>" +
+                    year.value + "</td><td><a href='" + url.value + "'>" + url.value + "</a></tr>";
+                flag += 1;
+            } else {
+                tbody.innerHTML += "<tr class='evenrow'><td>" + title.value + "</td><td>" + author.value + "</td><td>" +
+                    year.value + "</td><td><a href='" + url.value + "'>" + url.value + "</a></tr>";
+                flag += 1;
+            }
+            const myJSON = JSON.stringify(obj);
+            let time = new Date();
+            localStorage.setItem("ntou-" + time.getTime(), myJSON);
+        }
+        window.addEventListener("load", start, false);
+    </script>
+</head>
+
+<body>
+    <a href="https://currybanfan.github.io/-/00957051_homework7_02.html">github link</a>
+    <form action="#">
+        <p>
+            <label>Book Title:<input type="text" id="title"></label>
+            <label>Author(s):<input type="text" id="author"></label>
+            <label>Year:<input type="number" id="year"></label>
+            <label>Book URL:<input type="url" id="url"></label>
+        </p>
+        <p>
+            <input type="button" value="Add New Item" id="addButton">
+            <input type="button" value="Remove All Items" id="removeAllButton">
+        </p>
+    </form>
+    <hr>
+    <div id="display">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Year</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
